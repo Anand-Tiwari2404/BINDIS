@@ -28,17 +28,32 @@ export default function Header() {
 
         {/* Right-side icons: Search & Cart */}
         <div className="flex items-center space-x-4">
-          {/* Search Button */}
-          <div className="relative">
-            <button onClick={() => setIsSearchOpen(!isSearchOpen)} aria-label="Search">
-              <Search className="h-5 w-5" />
-            </button>
-            {isSearchOpen && (
-              <div className="absolute right-0 mt-2 w-64 bg-white shadow-lg rounded-md overflow-hidden">
-                <input type="search" placeholder="Search..." className="w-full p-2 border border-gray-300 rounded-md" />
-              </div>
-            )}
-          </div>
+  {/* Search Button */}
+  <div className="relative">
+    <button
+      onClick={() => setIsSearchOpen(!isSearchOpen)}
+      aria-label="Search"
+      className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition duration-300"
+    >
+      <Search className="h-6 w-6 text-gray-700 transition-transform duration-300 hover:scale-110" />
+    </button>
+
+    {/* Animated Search Bar */}
+    <div
+      className={`absolute right-0 mt-2 w-72 transform transition-all duration-300 ease-in-out 
+        ${isSearchOpen ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 -translate-y-2 pointer-events-none"}`}
+    >
+      <div className="bg-white backdrop-blur-md bg-opacity-80 shadow-xl rounded-lg p-2 border border-gray-300">
+        <input
+          type="search"
+          placeholder="Search for delicious treats..."
+          className="w-full p-3 text-gray-700 bg-transparent border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all"
+        />
+      </div>
+    </div>
+  </div>
+
+
 
           {/* Shopping Cart */}
           <div className="relative">

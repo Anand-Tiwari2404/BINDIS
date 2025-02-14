@@ -2,11 +2,11 @@ import Image from "next/image";
 
 export default function HeroSection() {
   return (
-    <section className="relative bg-yellow-100 py-20 text-center">
+    <section className="relative bg-yellow-100 py-20 text-center mb-10"> {/* Added mb-10 for spacing */}
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
-          src="/bakery-bg.jpg"
+          src="/bindi's_logo.jpg"
           alt="Bakery Background"
           layout="fill"
           objectFit="cover"
@@ -21,7 +21,7 @@ export default function HeroSection() {
           Freshly baked cupcakes, brownies, and ice creams made with love ❤️
         </p>
         <a
-          href="https://wa.me/yourwhatsappnumber"
+          href="https://wa.me/918849130189"
           className="mt-6 inline-block bg-pink-500 text-white text-lg px-6 py-3 rounded-lg shadow-md hover:bg-pink-600 transition"
         >
           Order on WhatsApp

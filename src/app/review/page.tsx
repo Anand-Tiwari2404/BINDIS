@@ -1,10 +1,10 @@
 import { Star } from "lucide-react"
 
 const reviews = [
-  { id: 1, name: "Alice", rating: 5, comment: "The cupcakes were absolutely delicious! Will definitely order again." },
-  { id: 2, name: "Bob", rating: 4, comment: "Great variety of flavors. The ice cream was a hit at our party." },
-  { id: 3, name: "Charlie", rating: 5, comment: "The best eggless cakes I've ever had. Highly recommended!" },
-  { id: 4, name: "Diana", rating: 5, comment: "Ordered a custom cake for my daughter's birthday. It was perfect!" },
+  { id: 1, name: "Hrithik", rating: 5, comment: "The cupcakes were absolutely delicious! Will definitely order again." },
+  { id: 2, name: "Abhishek", rating: 4, comment: "Great variety of flavors. The ice cream was a hit at our party." },
+  { id: 3, name: "Kshitij", rating: 5, comment: "The best eggless cakes I've ever had. Highly recommended!" },
+  { id: 4, name: "Akshat", rating: 5, comment: "Ordered a custom cake for my daughter's birthday. It was perfect!" },
 ]
 
 function Rating({ rating }: { rating: number }) {

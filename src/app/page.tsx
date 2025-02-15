@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Leaf, IceCream, Cake } from "lucide-react";
-import HeroSection from "./components/HeroSection";
+import HeroSection from "../components/HeroSection";
 
 
 export default function Home() {

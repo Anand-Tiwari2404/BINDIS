@@ -1,54 +1,48 @@
 "use client";
-import { createContext, useContext, useState } from "react";
 
-// Define types for cart items
+import { createContext, useContext, useState, ReactNode } from "react";
+
 interface CartItem {
-  id: number;
+  id: string;
   name: string;
   image: string;
   price: number;
   qty: number;
 }
 
-// Define types for Cart Context
 interface CartContextType {
   cart: CartItem[];
   addToCart: (item: CartItem) => void;
-  updateQuantity: (id: number, qty: number) => void;
-  removeFromCart: (id: number) => void;
+  updateQuantity: (id: string, qty: number) => void;
+  removeFromCart: (id: string) => void;
 }
 
-// Create the CartContext
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-// Provider Component
-export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
 
-  // Add item to cart
   const addToCart = (item: CartItem) => {
     setCart((prevCart) => {
-      const existingItem = prevCart.find((cartItem) => cartItem.id === item.id);
+      const existingItem = prevCart.find((p) => p.id === item.id);
       if (existingItem) {
-        return prevCart.map((cartItem) =>
-          cartItem.id === item.id ? { ...cartItem, qty: cartItem.qty + 1 } : cartItem
+        return prevCart.map((p) =>
+          p.id === item.id ? { ...p, qty: p.qty + 1 } : p
         );
       }
       return [...prevCart, { ...item, qty: 1 }];
     });
   };
 
-  // Update item quantity (remove if qty is 0)
-  const updateQuantity = (id: number, qty: number) => {
+  const updateQuantity = (id: string, qty: number) => {
     setCart((prevCart) =>
-      qty > 0
-        ? prevCart.map((item) => (item.id === id ? { ...item, qty } : item))
-        : prevCart.filter((item) => item.id !== id)
+      prevCart.map((item) =>
+        item.id === id ? { ...item, qty: Math.max(1, qty) } : item
+      )
     );
   };
 
-  // Remove item from cart
-  const removeFromCart = (id: number) => {
+  const removeFromCart = (id: string) => {
     setCart((prevCart) => prevCart.filter((item) => item.id !== id));
   };
 
@@ -59,11 +53,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   );
 };
 
-// Custom hook to use Cart Context
-export const useCart = (): CartContextType => {
+export const useCart = () => {
   const context = useContext(CartContext);
-  if (!context) {
-    throw new Error("useCart must be used within a CartProvider");
-  }
+  if (!context) throw new Error("useCart must be used within a CartProvider");
   return context;
 };

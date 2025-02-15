@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Search, ShoppingCart } from "lucide-react";
@@ -8,6 +8,37 @@ import { Search, ShoppingCart } from "lucide-react";
 export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [cartItems, setCartItems] = useState<number[]>([]); // Placeholder cart items
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
+  const [allProducts, setAllProducts] = useState<any[]>([]);
+
+  // Fetch products from API when component mounts
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("/api/products");
+        const data = await response.json();
+        setAllProducts(data.products); // Set fetched products
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  // Update filtered products when search query changes
+  useEffect(() => {
+    if (searchQuery.trim() === "") {
+      setFilteredProducts([]);
+      return;
+    }
+
+    const results = allProducts.filter((product) =>
+      product.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    setFilteredProducts(results);
+  }, [searchQuery, allProducts]);
 
   return (
     <header className="bg-pink-100 shadow-md">
@@ -40,20 +71,33 @@ export default function Header() {
 
             {/* Animated Search Bar */}
             <div
-              className={`absolute right-0 mt-2 w-72 transform transition-all duration-300 ease-in-out 
+              className={`absolute right-0 mt-2 w-72 transform transition-all duration-300 ease-in-out z-50
         ${isSearchOpen ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 -translate-y-2 pointer-events-none"}`}
             >
               <div className="bg-white backdrop-blur-md bg-opacity-80 shadow-xl rounded-lg p-2 border border-gray-300">
                 <input
                   type="search"
                   placeholder="Search for delicious treats..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full p-3 text-gray-700 bg-transparent border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all"
                 />
+
+                {/* Search Results */}
+                {filteredProducts.length > 0 && (
+                  <ul className="mt-2 bg-white border border-gray-300 rounded-md shadow-md max-h-60 overflow-auto">
+                    {filteredProducts.map((product) => (
+                      <li key={product._id} className="p-2 hover:bg-pink-100 cursor-pointer">
+                        <Link href={`/products/${product._id}`}>
+                          <span className="block text-gray-800">{product.name}</span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             </div>
           </div>
-
-
 
           {/* Shopping Cart */}
           <div className="relative">
@@ -66,7 +110,6 @@ export default function Header() {
                 <ShoppingCart className="h-6 w-6 text-gray-700" />
               </button>
             </Link>
-
           </div>
         </div>
       </div>

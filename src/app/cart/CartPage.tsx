@@ -35,6 +35,13 @@ const CartPage = () => {
         </div>
       ))}
       <h3 className="text-xl font-semibold mt-4">Total: ${total}</h3>
+
+      {/* Checkout Button */}
+      <Link href="/cart/checkout">
+        <button className="bg-green-500 text-white px-4 py-2 rounded mt-4">
+          Proceed to Checkout
+        </button>
+      </Link>
     </div>
   );
 };

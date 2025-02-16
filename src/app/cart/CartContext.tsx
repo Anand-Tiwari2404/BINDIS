@@ -1,20 +1,21 @@
-"use client";
+"use client"
 
 import { createContext, useContext, useState, ReactNode } from "react";
 
 interface CartItem {
-  id: string;
+  id: number;
   name: string;
-  image: string;
   price: number;
   qty: number;
+  image: string;
 }
 
 interface CartContextType {
   cart: CartItem[];
   addToCart: (item: CartItem) => void;
-  updateQuantity: (id: string, qty: number) => void;
-  removeFromCart: (id: string) => void;
+  updateQuantity: (id: number, qty: number) => void;
+  removeFromCart: (id: number) => void;
+  clearCart: () => void; // ✅ Add this
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -23,18 +24,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
 
   const addToCart = (item: CartItem) => {
-    setCart((prevCart) => {
-      const existingItem = prevCart.find((p) => p.id === item.id);
-      if (existingItem) {
-        return prevCart.map((p) =>
-          p.id === item.id ? { ...p, qty: p.qty + 1 } : p
-        );
-      }
-      return [...prevCart, { ...item, qty: 1 }];
-    });
+    setCart((prevCart) => [...prevCart, item]);
   };
 
-  const updateQuantity = (id: string, qty: number) => {
+  const updateQuantity = (id: number, qty: number) => {
     setCart((prevCart) =>
       prevCart.map((item) =>
         item.id === id ? { ...item, qty: Math.max(1, qty) } : item
@@ -42,12 +35,16 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
-  const removeFromCart = (id: string) => {
+  const removeFromCart = (id: number) => {
     setCart((prevCart) => prevCart.filter((item) => item.id !== id));
   };
 
+  const clearCart = () => {
+    setCart([]); // ✅ Clears the cart after checkout
+  };
+
   return (
-    <CartContext.Provider value={{ cart, addToCart, updateQuantity, removeFromCart }}>
+    <CartContext.Provider value={{ cart, addToCart, updateQuantity, removeFromCart, clearCart }}>
       {children}
     </CartContext.Provider>
   );
@@ -55,6 +52,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
 export const useCart = () => {
   const context = useContext(CartContext);
-  if (!context) throw new Error("useCart must be used within a CartProvider");
+  if (!context) {
+    throw new Error("useCart must be used within a CartProvider");
+  }
   return context;
 };

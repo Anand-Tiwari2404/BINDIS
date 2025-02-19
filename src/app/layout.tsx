@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import Header from "../components/Header";
 import { Footer } from "../components/Footer";
 import { CartProvider } from "./cart/CartContext"; // Import CartProvider
+import WhatsAppFloat from "@/components/whatsapp-float"; // Import WhatsApp Float
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Header />
           <main className="flex-grow">{children}</main>
           <Footer />
+          <WhatsAppFloat /> {/* Ensure WhatsApp Floating Icon is always visible */}
         </CartProvider>
       </body>
     </html>

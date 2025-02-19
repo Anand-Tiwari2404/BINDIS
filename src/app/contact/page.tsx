@@ -39,7 +39,7 @@ export default function Contact() {
         {/* Working Hours */}
         <div className="flex items-center gap-4 p-4 mt-4 rounded-lg bg-gray-100 shadow-sm transition-all duration-300 hover:scale-105 hover:bg-gray-200">
           <Clock className="w-8 h-8 text-pink-600" />
-          <p className="text-gray-800 text-lg font-medium">⏰ Open daily: 11:00 AM - 7:00 PM</p>
+          <p className="text-gray-800 text-lg font-medium">⏰ Open daily: 11:00 AM - 8:00 PM</p>
         </div>
 
         {/* Call to Action */}

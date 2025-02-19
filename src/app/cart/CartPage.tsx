@@ -34,7 +34,7 @@ const CartPage = () => {
           </div>
         </div>
       ))}
-      <h3 className="text-xl font-semibold mt-4">Total: ${total}</h3>
+      <h3 className="text-xl font-semibold mt-4">Total: ₹{total}</h3>
 
       {/* Checkout Button */}
       <Link href="/cart/checkout">
